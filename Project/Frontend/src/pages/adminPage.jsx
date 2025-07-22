@@ -2,6 +2,9 @@ import { Link, Route, Routes } from "react-router-dom";
 import { FaUsers } from "react-icons/fa";
 import { FaFileInvoice } from "react-icons/fa6";
 import { MdWarehouse } from "react-icons/md";
+import AdminProductPage from "./admin/products";
+import AddProductFrom from "./admin/addProductForm";
+
 
 export default function AdminPage(){
     return(
@@ -14,8 +17,9 @@ export default function AdminPage(){
             <div className="w-[calc(100vw-300px)] h-full rounded-lg bg-white">
                 <Routes path="/*">
                     <Route path="/users" element={<h1>User</h1>}/>
-                    <Route path="/products" element={<h1>Products</h1>}/>
+                    <Route path="/products" element={<AdminProductPage/>}/>
                     <Route path="/orders" element={<h1>Orders</h1>}/>
+                    <Route path="/addProduct" element={<AddProductFrom/>}/>
                 </Routes>
             </div>
 
