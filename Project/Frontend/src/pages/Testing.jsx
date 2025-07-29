@@ -1,42 +1,26 @@
 import { useState } from "react"
+import toast from "react-hot-toast"
+import MediaUplod from "../Utils/MediaUpload"
 
 export default function Testing(){
-    const [number,setnumber] = useState(0)
-    const [states,setstates] = useState("Pending")
 
-    function increces(){
-        let newNumber = number+1
-        setnumber(newNumber)
+    const [file,setFile] = useState(null)
+
+    function uploadHandler(){
+
+        MediaUplod(file).then((url)=>{
+            console.log(url)
+            toast.success("File Upload successfull")
+        })
+        .catch((error) => {
+            console.log(error)
+            toast.error("File not uploaded")
+        })
     }
-
-    function decreces(){
-        let newNumber = number-1
-        setnumber(newNumber)
-    }
-
-    function setPass(){
-        let states = "Pass"
-        setstates(states)
-    }
-
-    function setFail(){
-        let states = "Fail"
-        setstates(states)
-    }
-
     return(
-        <div className="w-full h-screen flex flex-col justify-center items-center">
-            <span className="text-2xl font-bold">{number}</span>
-            <div>
-                <button onClick={increces} className="bg-blue-600 rounded-[5px] text-white w-[60px] mr-[2px]">+</button>
-                <button onClick={decreces} className="bg-blue-600 rounded-[5px] text-white w-[60px] ml-[2px]">-</button>
-            </div>
-            <span className="text-2xl font-bold">{states}</span>
-            <div>
-                <button onClick={setPass} className="bg-blue-600 rounded-[5px] text-white w-[60px] mr-[2px]">pass</button>
-                <button onClick={setFail} className="bg-blue-600 rounded-[5px] text-white w-[60px] ml-[2px]">Fail</button>
-            </div>
-
+        <div className="w-full h-screen flex justify-center items-center">
+            <input className="bg-blue-200 p-[5px] border border-black rounded-md m-[5px]" onChange={(e) => setFile(e.target.files[0])} type="file"></input>
+            <button className="bg-black text-white hover:bg-white hover:text-black border border-black p-[5px] rounded-md" onClick={uploadHandler}>Upload</button>
         </div>
     )
 }
