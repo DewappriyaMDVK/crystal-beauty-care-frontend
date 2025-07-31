@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState,} from "react"
 import { FaPlus } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { GrEdit } from "react-icons/gr";
 import toast from "react-hot-toast";
@@ -12,6 +12,7 @@ export default function AdminProductPage(){
 
     const [products,setProducts] = useState([]);
     const [loaded,setLoaded] = useState(false);
+    const navigate = useNavigate()
 
     useEffect(()=>{
 
@@ -57,7 +58,7 @@ export default function AdminProductPage(){
                         <td className="font-bold p-2">Price</td>
                         <td className="font-bold p-2">Lable Price</td>
                         <td className="font-bold p-2">Stoke</td>
-                        <td className="font-bold p-2">Action</td>
+                        <td className="font-bold p-2 flex justify-center">Action</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,11 +75,11 @@ export default function AdminProductPage(){
                             <td className="p-2">
                                 <div className="w-full h-full flex justify-center">
                                     <RiDeleteBinLine onClick={()=>{DeleteProduct(product.productId)}} className="text-[25px] m-[10px] hover:text-red-500"/>
-                                    <GrEdit className="text-[25px] m-[10px] hover:text-blue-500"/>
+                                    <GrEdit onClick={()=>{
+                                        navigate("/admin/editproduct",{state:product})
+                                        }} className="text-[25px] m-[10px] hover:text-blue-500"/>
                                 </div>
                             </td>
-
-
                             </tr>
                             )
                         })}
