@@ -70,16 +70,17 @@ export default function LoginPage(){
 import { useState } from "react"
 import axios from 'axios'
 import toast from "react-hot-toast"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 
 export default function LoginPage(){
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
+    const [loading,setLoading] = useState("")
     const navigate = useNavigate()
 
     function loginHandler(){
-     
+        setLoading(true)
         axios.post(import.meta.env.VITE_BACKEND_URL+"/api/user/login",{
             email:email,
             password:password
@@ -91,18 +92,18 @@ export default function LoginPage(){
             
             const user = respons.data.user
             if (user.role.toLowerCase() === "admin" || user.role.toLowerCase() === "manager") {
-                navigate("/admin");
+                navigate("/admin/products");
             }else{
                console.log("Customer",respons.data.user.fristName)
             }
             toast.success("Login successfull")
-           
-
+            setLoading(false)
         }
     ).catch(
         (error) => {
-            console.log("Login failed", error.response.data); // ✅ FIXED
+            console.log("Login failed", error.response.data);
             toast.error(error.response.data.message || "Login failed");
+            setLoading(false)
         }
     )
     }
@@ -124,7 +125,20 @@ export default function LoginPage(){
                         setPassword(event.target.value)}} 
                         className="w-[400px] h-[45px] border border-white rounded-xl text-center m-[5px]" type="password" placeholder="Password"></input>
                     
-                    <button onClick={loginHandler} className="w-[400px] h-[45px] bg-green-600 rounded-xl text-white cursor-pointer">Login</button>
+                    <button onClick={loginHandler} className="w-[400px] h-[45px] bg-green-600 rounded-xl text-white cursor-pointer">
+                        {
+                            loading?"Loading...":"Login"
+                        }
+                    </button>
+                    <p className="text-gray-500 mt-[15px]">
+                        Don't have an account?
+                        
+                        <span className="text-blue-600 p-[5px] hover:text-blue-400">
+                            <Link to="/register">
+                                Register Now
+                            </Link>
+                        </span>
+                    </p>
 
                 </div>
 
